@@ -511,8 +511,8 @@ function IndexPopup() {
                     <div className="mt-0.5 text-xs text-slate-500">
                       {selected
                         ? `${selected.category} • ${selected.language} • ${formatDateTime(
-                            selected.updatedAt
-                          )}`
+                          selected.updatedAt
+                        )}`
                         : "从左侧列表点击一个条目查看"}
                     </div>
                   </div>

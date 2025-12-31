@@ -11,6 +11,9 @@ importers:
       plasmo:
         specifier: 0.90.5
         version: 0.90.5(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/helpers@0.5.18)(@types/node@20.11.5)(postcss@8.5.6)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -2697,6 +2700,10 @@ packages:
     resolution: {integrity: sha512-FWu1oLHKCrtpO1ypU6J0SbK2d9Ckwysq6bHj/uaCP26DxrPpppCLQRGVuqAxSTvhF00AcvDRyYrLNW7ocBhFFQ==}
     engines: {node: '>=14'}
     hasBin: true
+
+  prismjs@1.30.0:
+    resolution: {integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==}
+    engines: {node: '>=6'}
 
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
@@ -6029,6 +6036,8 @@ snapshots:
       posthtml-render: 3.0.0
 
   prettier@3.2.4: {}
+
+  prismjs@1.30.0: {}
 
   process@0.11.10: {}
 

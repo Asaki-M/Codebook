@@ -62,3 +62,14 @@ pnpm package
 ## 开发辅助
 
 - 类型检查：`pnpm exec tsc -p tsconfig.json --noEmit`
+
+## CI / Release
+
+- Push 到 `main` 会触发 GitHub Actions：`.github/workflows/release.yml`
+- 工作流会执行 `pnpm package`，并创建一个 Release，tag 来自 `package.json` 的 `version`（例如 `v0.0.2`），附件为 `build/*.zip`
+- 如果该版本的 Release 已存在，则不会重复创建（但仍会打包并上传 Actions artifact）
+
+### 发版流程（建议）
+
+1. 修改 `package.json` 里的 `version`（例如 `0.0.1` → `0.0.2`）并提交/合并到 `main`
+2. 推送到 `main` 后会自动创建 `v0.0.2` 的 Release
