@@ -45,11 +45,21 @@ jobs:
           mkdir -p build
           pnpm package
 
+      - name: Rename package zip
+        id: zip
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC_ZIP="$(ls -1 build/*.zip | head -n 1)"
+          DEST_ZIP="build/codebook-${{ steps.version.outputs.version }}.zip"
+          mv "$SRC_ZIP" "$DEST_ZIP"
+          echo "zip_path=$DEST_ZIP" >> "$GITHUB_OUTPUT"
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: plasmo-package
-          path: build/*.zip
+          path: ${{ steps.zip.outputs.zip_path }}
 
       - name: Check if release exists
         id: release_check
@@ -81,4 +91,4 @@ jobs:
           prerelease: ${{ contains(steps.version.outputs.tag, '-') }}
           generate_release_notes: true
           fail_on_unmatched_files: true
-          files: build/*.zip
+          files: ${{ steps.zip.outputs.zip_path }}

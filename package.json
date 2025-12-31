@@ -1,7 +1,7 @@
 {
   "name": "codebook",
   "displayName": "Codebook",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A basic Plasmo extension.",
   "author": "qinghuan",
   "packageManager": "pnpm@10.25.0",
