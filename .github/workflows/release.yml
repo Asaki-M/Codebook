@@ -40,25 +40,27 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Package extension
+      - name: Build & package
         run: |
           mkdir -p build
-          pnpm package
+          pnpm release
 
       - name: Rename package zip
         id: zip
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -f build/chrome-mv3-prod.zip ]]; then
-            SRC_ZIP="build/chrome-mv3-prod.zip"
-          else
-            SRC_ZIP="$(ls -1 build/*.zip | head -n 1)"
-          fi
-
-          test -s "$SRC_ZIP"
+          SRC_ZIP="build/chrome-mv3-prod.zip"
           DEST_ZIP="build/codebook-${{ steps.version.outputs.version }}.zip"
+          if [[ ! -f "$SRC_ZIP" ]]; then
+            echo "Expected $SRC_ZIP not found"
+            ls -la build || true
+            exit 1
+          fi
+          test -s "$SRC_ZIP"
+          rm -f "$DEST_ZIP"
           mv "$SRC_ZIP" "$DEST_ZIP"
+          test -s "$DEST_ZIP"
           echo "zip_path=$DEST_ZIP" >> "$GITHUB_OUTPUT"
           echo "zip_name=$(basename "$DEST_ZIP")" >> "$GITHUB_OUTPUT"
 
@@ -66,7 +68,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          unzip -Z1 "${{ steps.zip.outputs.zip_path }}" | grep -q 'manifest.json$'
+          ZIP_PATH="${{ steps.zip.outputs.zip_path }}"
+          unzip -Z1 "$ZIP_PATH" > zip-contents.txt
+          head -n 200 zip-contents.txt
+          grep -q 'manifest.json$' zip-contents.txt
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

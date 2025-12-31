@@ -66,7 +66,7 @@ pnpm package
 ## CI / Release
 
 - Push 到 `main` 会触发 GitHub Actions：`.github/workflows/release.yml`
-- 工作流会执行 `pnpm package`，并创建一个 Release，tag 来自 `package.json` 的 `version`（例如 `v0.0.2`），附件为 `codebook-<version>.zip`
+- 工作流会执行 `pnpm release`（先 `pnpm build` 再 `pnpm package`），并将产物 `chrome-mv3-prod.zip` 重命名为 `codebook-<version>.zip`，然后创建/更新 Release（tag 来自 `package.json` 的 `version`，例如 `v0.0.2`）
 - 如果该版本的 Release 已存在，会更新该 Release，并覆盖同名附件（同时也会上传 Actions artifact）
 
 ### 发版流程（建议）

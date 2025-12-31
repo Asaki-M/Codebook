@@ -1,14 +1,15 @@
 {
   "name": "codebook",
   "displayName": "Codebook",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A basic Plasmo extension.",
   "author": "qinghuan",
   "packageManager": "pnpm@10.25.0",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "package": "plasmo package"
+    "package": "plasmo package",
+    "release": "plasmo build && plasmo package"
   },
   "dependencies": {
     "plasmo": "0.90.5",
