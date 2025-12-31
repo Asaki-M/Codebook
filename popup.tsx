@@ -3,6 +3,7 @@ import "~style.css"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { IconButton } from "~/components/IconButton"
+import { HighlightedCode } from "~/components/HighlightedCode"
 import { Modal } from "~/components/Modal"
 import { IconCopy } from "~/icon/IconCopy"
 import { IconDownload } from "~/icon/IconDownload"
@@ -562,11 +563,11 @@ function IndexPopup() {
                         </div>
                       </div>
 
-                      <pre className="max-h-[360px] overflow-hidden rounded-xl bg-slate-950 p-4 text-xs leading-5 text-slate-50">
-                        <code className="font-mono whitespace-pre-wrap break-words">
-                          {selected.code}
-                        </code>
-                      </pre>
+                      <HighlightedCode
+                        code={selected.code}
+                        language={selected.language}
+                        preClassName="max-h-[360px] overflow-hidden rounded-xl bg-slate-950 p-4 text-slate-50"
+                      />
                       <div className="mt-2 text-xs text-slate-500">
                         内容过长会被截断；需要完整查看请点「编辑」或直接「复制」。
                       </div>

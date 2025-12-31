@@ -2,6 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
+.codebook-prism code[class*="language-"] {
+  background: transparent;
+  color: #e2e8f0;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.codebook-prism .token.comment,
+.codebook-prism .token.prolog,
+.codebook-prism .token.doctype,
+.codebook-prism .token.cdata {
+  color: #94a3b8;
+}
+
+.codebook-prism .token.punctuation {
+  color: #cbd5e1;
+}
+
+.codebook-prism .token.property,
+.codebook-prism .token.tag,
+.codebook-prism .token.constant,
+.codebook-prism .token.symbol,
+.codebook-prism .token.deleted {
+  color: #fca5a5;
+}
+
+.codebook-prism .token.boolean,
+.codebook-prism .token.number {
+  color: #fbbf24;
+}
+
+.codebook-prism .token.selector,
+.codebook-prism .token.attr-name,
+.codebook-prism .token.string,
+.codebook-prism .token.char,
+.codebook-prism .token.builtin,
+.codebook-prism .token.inserted {
+  color: #86efac;
+}
+
+.codebook-prism .token.operator,
+.codebook-prism .token.entity,
+.codebook-prism .token.url,
+.codebook-prism .language-css .token.string,
+.codebook-prism .style .token.string {
+  color: #7dd3fc;
+}
+
+.codebook-prism .token.atrule,
+.codebook-prism .token.attr-value,
+.codebook-prism .token.keyword {
+  color: #a5b4fc;
+}
+
+.codebook-prism .token.function,
+.codebook-prism .token.class-name {
+  color: #fdba74;
+}
+
+.codebook-prism .token.regex,
+.codebook-prism .token.important,
+.codebook-prism .token.variable {
+  color: #fda4af;
+}
+
+.codebook-prism .token.important,
+.codebook-prism .token.bold {
+  font-weight: 700;
+}
+
+.codebook-prism .token.italic {
+  font-style: italic;
+}
+
 .scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;
