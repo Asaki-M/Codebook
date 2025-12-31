@@ -50,10 +50,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          SRC_ZIP="$(ls -1 build/*.zip | head -n 1)"
+          if [[ -f build/chrome-mv3-prod.zip ]]; then
+            SRC_ZIP="build/chrome-mv3-prod.zip"
+          else
+            SRC_ZIP="$(ls -1 build/*.zip | head -n 1)"
+          fi
+
+          test -s "$SRC_ZIP"
           DEST_ZIP="build/codebook-${{ steps.version.outputs.version }}.zip"
           mv "$SRC_ZIP" "$DEST_ZIP"
           echo "zip_path=$DEST_ZIP" >> "$GITHUB_OUTPUT"
+          echo "zip_name=$(basename "$DEST_ZIP")" >> "$GITHUB_OUTPUT"
+
+      - name: Validate package zip
+        shell: bash
+        run: |
+          set -euo pipefail
+          unzip -Z1 "${{ steps.zip.outputs.zip_path }}" | grep -q 'manifest.json$'
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -81,8 +94,35 @@ jobs:
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Delete existing release asset (if any)
+        if: steps.release_check.outputs.exists == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.version.outputs.tag }}"
+          ASSET_NAME="${{ steps.zip.outputs.zip_name }}"
+
+          RELEASE_JSON="$(
+            curl -sS \
+              -H "Authorization: Bearer ${{ github.token }}" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${TAG}"
+          )"
+          export RELEASE_JSON
+          export ASSET_NAME
+
+          ASSET_ID="$(node -e "const r=JSON.parse(process.env.RELEASE_JSON); const name=process.env.ASSET_NAME; const a=(r.assets||[]).find(x=>x.name===name); if(a) process.stdout.write(String(a.id));")"
+
+          if [[ -n "$ASSET_ID" ]]; then
+            curl -sS -X DELETE \
+              -H "Authorization: Bearer ${{ github.token }}" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/assets/${ASSET_ID}"
+          fi
+
       - name: Create GitHub release
-        if: steps.release_check.outputs.exists != 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
